@@ -22,26 +22,18 @@ const port = argv["port"] || 3000
 // 2. set a header with content type `text/html`, and 
 // 3. end with the data that you are reading in from ./public/index.html.
 const server = http.createServer(function(req, res) {
-    res.writeHead(200, { 'Content-Type': 'text/html'})
+    res.writeHead(200, { 'Content-Type': 'text/html' })
     fs.readFile('public/index.html', function(error, data) {
-        if (error) {
-            res.writeHead(404)
-            res.write("Error: File not Found")
-        } else {
-            res.write(data)
-        }
-        res.end()
+        if (error) throw error
+        res.end(data)
     })
 })
 
 // Start the `server` const listening on the port defined by argument in your `port` const. 
 // Put the exact message `Server listening on port ${port}` on the console log. 
 server.listen(port, function(error) {
-    if (error) {
-        console.log("error", error)
-    } else {
-        console.log("Server is listening on port " + port)
-    }
+    if (error) throw error
+    console.log(`Server is listening on port ${port}`)
 })
 
 // That's it! You're all done!
